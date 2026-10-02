@@ -1,26 +1,280 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* ==========================================================================
+   Neyroset design tokens
+   ========================================================================== */
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@theme {
+  /* Typography */
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  --text-display-xl: clamp(2.5rem, 1.25rem + 3.6vw, 4.35rem);
+  --text-display-xl--line-height: 1.04;
+  --text-display-xl--letter-spacing: -0.035em;
+  --text-display-xl--font-weight: 800;
+
+  --text-display: clamp(2.2rem, 1.15rem + 2.9vw, 3.9rem);
+  --text-display--line-height: 1.08;
+  --text-display--letter-spacing: -0.035em;
+  --text-display--font-weight: 800;
+
+  --text-title-lg: clamp(1.5rem, 1.25rem + 0.9vw, 2rem);
+  --text-title-lg--line-height: 1.18;
+  --text-title-lg--letter-spacing: -0.025em;
+
+  --text-title: 1.25rem;
+  --text-title--line-height: 1.35;
+  --text-title--letter-spacing: -0.015em;
+
+  --text-lead: clamp(1.0625rem, 0.95rem + 0.4vw, 1.3rem);
+  --text-lead--line-height: 1.5;
+
+  --text-eyebrow: 0.8125rem;
+  --text-eyebrow--line-height: 1;
+  --text-eyebrow--letter-spacing: 0.1em;
+
+  /* Colors */
+  --color-ink: #0b1035;
+  --color-body: #464e6a;
+  --color-muted: #646c8a;
+  --color-line: #e9edf7;
+  --color-line-strong: #d5dcee;
+  --color-canvas: #f7f9fe;
+  --color-surface: #ffffff;
+
+  --color-brand-50: #eef2ff;
+  --color-brand-100: #e1e8ff;
+  --color-brand-200: #c5d2ff;
+  --color-brand-300: #9db1ff;
+  --color-brand-400: #6e87fb;
+  --color-brand-500: #3d5cf6;
+  --color-brand-600: #2149f3;
+  --color-brand-700: #1836d0;
+  --color-brand-800: #172c9e;
+
+  --color-iris-300: #b9adff;
+  --color-iris-500: #7a5cfa;
+  --color-mint-500: #12b76a;
+  --color-navy-900: #0e1433;
+  --color-navy-800: #161d45;
+
+  /* Radius */
+  --radius-tile: 1rem;
+  --radius-card: 1.25rem;
+  --radius-panel: 2rem;
+
+  /* Shadows */
+  --shadow-xs: 0 1px 2px rgb(15 23 66 / 0.04);
+  --shadow-soft: 0 1px 2px rgb(15 23 66 / 0.03), 0 16px 40px -20px rgb(40 60 140 / 0.16);
+  --shadow-card: 0 1px 2px rgb(15 23 66 / 0.04), 0 28px 56px -28px rgb(31 68 240 / 0.24);
+  --shadow-float: 0 40px 90px -40px rgb(31 68 240 / 0.45), 0 10px 30px -16px rgb(15 23 66 / 0.18);
+  --shadow-button: 0 12px 28px -12px rgb(31 68 240 / 0.7), inset 0 1px 0 rgb(255 255 255 / 0.18);
+
+  /* Containers */
+  --container-site: 82rem;
+  --container-wide: 89.25rem;
+  --container-prose: 40rem;
+
+  /* Motion */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-rise: rise 0.9s var(--ease-out-soft) both;
+  --animate-float: float 9s ease-in-out infinite;
+  --animate-float-slow: float 13s ease-in-out infinite;
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translate3d(0, 18px, 0);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -14px, 0);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ==========================================================================
+   Layout utilities
+   ========================================================================== */
+
+@utility container-site {
+  width: 100%;
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  @media (width >= 40rem) {
+    padding-inline: 1.75rem;
+  }
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Matches the references: ~5% side margins, content capped at 1428px */
+@utility container-wide {
+  width: min(calc(100% - 2 * clamp(1.25rem, 5vw, 5rem)), var(--container-wide));
+  margin-inline: auto;
+}
+
+/* Vertical rhythm between sections: ~72px mobile → 128px desktop */
+@utility section-y {
+  padding-block: clamp(2.25rem, 1.4rem + 2vw, 2.85rem);
+}
+
+@utility section-y-sm {
+  padding-block: clamp(2rem, 1.2rem + 2vw, 2.75rem);
+}
+
+@utility surface-card {
+  background-color: var(--color-surface);
+  border: 1px solid rgb(233 237 247 / 0.9);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+}
+
+@utility glass {
+  background-color: rgb(255 255 255 / 0.72);
+  border: 1px solid rgb(255 255 255 / 0.9);
+  box-shadow: var(--shadow-float);
+  backdrop-filter: blur(14px) saturate(1.4);
+}
+
+@utility focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 3px;
+  &:focus-visible {
+    outline-color: var(--color-brand-600);
+  }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    word-spacing: 0.05em;
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-ink);
+    font-family: var(--font-display);
+    text-wrap: balance;
+    word-spacing: 0.04em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--color-brand-100);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 3px;
+    border-radius: 0.5rem;
+  }
+
+  /* Lock page scroll while a modal dialog is open */
+  html:has(dialog[open]:modal) {
+    overflow: hidden;
+  }
+}
+
+/* ==========================================================================
+   Dialogs (mobile navigation + lightbox)
+   ========================================================================== */
+
+dialog.nr-dialog {
+  max-width: none;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+dialog.nr-dialog::backdrop {
+  background-color: rgb(11 16 53 / 0.45);
+  backdrop-filter: blur(6px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  dialog.nr-dialog[open] {
+    animation: dialog-in 0.32s var(--ease-out-soft);
+  }
+  dialog.nr-dialog[open]::backdrop {
+    animation: backdrop-in 0.32s ease-out;
+  }
+  dialog.nr-drawer[open] {
+    animation: drawer-in 0.38s var(--ease-out-soft);
+  }
+}
+
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 12px, 0) scale(0.98);
+  }
+}
+
+@keyframes drawer-in {
+  from {
+    opacity: 0;
+    transform: translate3d(24px, 0, 0);
+  }
+}
+
+@keyframes backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ==========================================================================
+   Reduced motion: disable decorative CSS animation
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
